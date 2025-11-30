@@ -42,10 +42,13 @@ class PasswordAnalyzerApp(ctk.CTk):
         main_frame = ctk.CTkFrame(self)
         main_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-        # Left panel
-        left = ctk.CTkFrame(main_frame, width=400)
-        left.pack(side="left", fill="both", padx=(0, 10))
-        left.pack_propagate(False)
+        # Left panel (container + scrollable content)
+        left_container = ctk.CTkFrame(main_frame, width=400)
+        left_container.pack(side="left", fill="y", padx=(0, 10))
+        left_container.pack_propagate(False)
+
+        left = ctk.CTkScrollableFrame(left_container)
+        left.pack(fill="both", expand=True, padx=0, pady=0)
 
         ctk.CTkLabel(left, text="Policy Configuration",
                      font=ctk.CTkFont(size=18, weight="bold")).pack(pady=15)
@@ -60,14 +63,23 @@ class PasswordAnalyzerApp(ctk.CTk):
 
         for label, key, minv, maxv in sliders:
             frame = ctk.CTkFrame(left)
-            frame.pack(fill="x", padx=20, pady=8)
-            ctk.CTkLabel(frame, text=label, width=180, anchor="w").pack(side="left")
-            slider = ctk.CTkSlider(frame, from_=minv, to=maxv, variable=self.policy[key])
-            slider.pack(side="right", padx=10)
-            ctk.CTkLabel(frame, textvariable=self.policy[key], width=40).pack(side="right")
+            frame.pack(fill="x", padx=25, pady=6)
 
-        ctk.CTkLabel(left, text="Complexity Requirements",
-                     font=ctk.CTkFont(weight="bold")).pack(pady=(20, 10), anchor="w", padx=20)
+            ctk.CTkLabel(frame, text=label, anchor="center").pack(fill="x")
+
+            slider = ctk.CTkSlider(
+                frame,
+                from_=minv,
+                to=maxv,
+                variable=self.policy[key]
+            )
+            slider.pack(fill="x", padx=10, pady=(4, 0))
+
+            ctk.CTkLabel(
+                frame,
+                textvariable=self.policy[key],
+                justify="center"
+            ).pack(pady=(2, 0))
 
         for text, key in [
             ("Uppercase letters", "upper"),
@@ -75,13 +87,15 @@ class PasswordAnalyzerApp(ctk.CTk):
             ("Numbers", "numbers"),
             ("Special characters", "special"),
         ]:
-            ctk.CTkCheckBox(left, text=text, variable=self.policy[key]).pack(anchor="w", padx=40, pady=4)
+            ctk.CTkCheckBox(left, text=text, variable=self.policy[key]).pack(
+                anchor="w", padx=40, pady=4
+            )
 
         ctk.CTkButton(left, text="Analyze Policy",
                       command=self.analyze_policy, height=40,
-                      font=ctk.CTkFont(weight="bold")).pack(pady=25, padx=50)
+                      font=ctk.CTkFont(weight="bold")).pack(pady=20, padx=50)
 
-        # Right Panel
+        # Right Panel (unchanged from your original)
         right = ctk.CTkFrame(main_frame)
         right.pack(side="right", fill="both", expand=True)
 
