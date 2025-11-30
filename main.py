@@ -109,6 +109,7 @@ class PasswordAnalyzerApp(ctk.CTk):
         self.tabview.add("Dictionary Attack")
 
     def analyze_policy(self):
+        self.tabview.set("Policy Analysis")
         p = {k: v.get() for k, v in self.policy.items()}
         score = 0
         details = []
@@ -183,6 +184,7 @@ class PasswordAnalyzerApp(ctk.CTk):
                          font=ctk.CTkFont(size=14)).pack(anchor="w", padx=80, pady=4)
 
     def test_password(self):
+        self.tabview.set("Strength Details")
         pwd = self.password_var.get().strip()
         if not pwd:
             messagebox.showwarning("Empty", "Enter a password first")
