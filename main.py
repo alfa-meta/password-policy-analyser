@@ -37,10 +37,10 @@ class PasswordAnalyzerApp(ctk.CTk):
     def create_ui(self):
         title = ctk.CTkLabel(self, text="Password Policy Analyzer",
                              font=ctk.CTkFont(size=28, weight="bold"))
-        title.pack(pady=20)
+        title.pack(pady=5)
 
         main_frame = ctk.CTkFrame(self)
-        main_frame.pack(fill="both", expand=True, padx=20, pady=10)
+        main_frame.pack(fill="both", expand=True, padx=5, pady=5)
 
         # Left panel (container + scrollable content)
         left_container = ctk.CTkFrame(main_frame, width=400)
@@ -93,30 +93,30 @@ class PasswordAnalyzerApp(ctk.CTk):
 
         ctk.CTkButton(left, text="Analyze Policy",
                       command=self.analyze_policy, height=40,
-                      font=ctk.CTkFont(weight="bold")).pack(pady=20, padx=50)
+                      font=ctk.CTkFont(weight="bold")).pack(pady=5, padx=50)
 
         # Right Panel (unchanged from your original)
         right = ctk.CTkFrame(main_frame)
         right.pack(side="right", fill="both", expand=True)
 
         tester = ctk.CTkFrame(right)
-        tester.pack(fill="x", pady=(0, 15), padx=20)
+        tester.pack(fill="x", pady=(0, 15), padx=5)
 
         ctk.CTkLabel(tester, text="Test a Password",
-                     font=ctk.CTkFont(size=18, weight="bold")).pack(pady=10)
+                     font=ctk.CTkFont(size=18, weight="bold")).pack(pady=5)
 
         entry = ctk.CTkEntry(tester, textvariable=self.password_var,
                              width=400, height=40, font=ctk.CTkFont(size=14))
-        entry.pack(pady=10)
+        entry.pack(pady=5)
 
         ctk.CTkButton(tester, text="Test Password Strength",
-                      command=self.test_password, width=200, height=40).pack(pady=10)
+                      command=self.test_password, width=200, height=40).pack(pady=5)
 
         ctk.CTkLabel(tester, text="Never enter real passwords!",
                      text_color="orange").pack()
 
         self.tabview = ctk.CTkTabview(right)
-        self.tabview.pack(fill="both", expand=True, padx=20, pady=10)
+        self.tabview.pack(fill="both", expand=True, padx=5, pady=5)
 
         self.tabview.add("Policy Analysis")
         self.tabview.add("Strength Details")
@@ -188,7 +188,7 @@ class PasswordAnalyzerApp(ctk.CTk):
 
         ctk.CTkLabel(tab, text=self.analysis_result["risk"],
                      font=ctk.CTkFont(size=36, weight="bold"),
-                     text_color=self.analysis_result["color"]).pack(pady=10)
+                     text_color=self.analysis_result["color"]).pack(pady=5)
 
         for status, text in self.analysis_result["details"]:
             color = "#00ff00" if status in ["Excellent", "Strong"] else \
@@ -222,7 +222,7 @@ class PasswordAnalyzerApp(ctk.CTk):
             "Online attack (10/sec)": 10,
             "Fast online (10k/sec)": 10_000,
             "Offline fast (100B/sec)": 100_000_000_000,
-            "Supercomputer": 1_000_000_000_000,
+            "Supercomputer (10,000B/sec)": 1_000_000_000_000,
         }
 
         times = {k: self.format_time(combos / (2 * v)) for k, v in rates.items()}
@@ -316,11 +316,11 @@ class PasswordAnalyzerApp(ctk.CTk):
                      text_color=s["color"]).pack(pady=30)
 
         ctk.CTkLabel(tab, text=f"Score: {s['score']}/100 | Entropy: {s['entropy']:.1f} bits"
-                     ).pack(pady=10)
+                     ).pack(pady=5)
 
-        ctk.CTkLabel(tab, text=f"Total combinations: {s['combos']}").pack(pady=10)
+        ctk.CTkLabel(tab, text=f"Total combinations: {s['combos']}").pack(pady=5)
 
-        ctk.CTkLabel(tab, text="Estimated crack time:",
+        ctk.CTkLabel(tab, text="Estimated crack time (in attempts per second):",
                      font=ctk.CTkFont(weight="bold")).pack(pady=(20, 10), anchor="w", padx=50)
 
         for scenario, t in s["times"].items():
